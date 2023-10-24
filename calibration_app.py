@@ -97,8 +97,8 @@ if st.button("Submit"):
     bin_means = np.zeros(10)
     
     for i in range(1, len(bins)):
-        mask = (np.array(confidences) >= bins[i-1]) & (np.array(confidences) < bins[i])
-        bin_data = np.array(answers)[mask]
+        mask = (np.array(st.session_state.confidences) >= bins[i-1]) & (np.array(st.session_state.confidences) < bins[i])
+        bin_data = np.array(st.session_state.answers)[mask]
         if len(bin_data) > 0:
             bin_means[i-1] = np.mean(bin_data)
     
