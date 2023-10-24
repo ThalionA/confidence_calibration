@@ -23,7 +23,7 @@ questions = [
     {"question": "Which planet is known as the Red Planet?", "choices": ['Venus', 'Mars', 'Jupiter', 'Saturn'], "answer": 1},
     {"question": "What is the currency of Japan?", "choices": ['Yen', 'Yuan', 'Won', 'Peso'], "answer": 0},
     {"question": "What is the largest mammal?", "choices": ['African Elephant', 'Blue Whale', 'Orca', 'Giraffe'], "answer": 1},
-    {"question": "Who painted the Mona Lisa?", "choices": ['Michelangelo', 'Leonardo da Vinci', 'Vincent van Gogh', 'Rembrandt'], "answer": 1}
+    {"question": "Who painted the Mona Lisa?", "choices": ['Michelangelo', 'Leonardo da Vinci', 'Vincent van Gogh', 'Rembrandt'], "answer": 1},
     {"question": "What is the Riemann Hypothesis?", "choices": ['Unproven theorem in number theory', 'Proven theorem in geometry', 'Algorithm in computer science', 'Quantum physics phenomenon'], "answer": 0},
     {"question": "Who developed the theory of conditioned reflex?", "choices": ['Sigmund Freud', 'Ivan Pavlov', 'B.F. Skinner', 'John Watson'], "answer": 1},
     {"question": "Which element has the atomic number 79?", "choices": ['Gold', 'Silver', 'Copper', 'Platinum'], "answer": 0},
