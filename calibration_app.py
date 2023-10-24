@@ -67,21 +67,29 @@ questions = [
 
 ]
 
-selected_questions = random.sample(questions, 20)
-random.shuffle(selected_questions)
+if 'selected_questions' not in st.session_state:
+    st.session_state.selected_questions = random.sample(questions, 20)
+    random.shuffle(st.session_state.selected_questions)
+
+if 'answers' not in st.session_state:
+    st.session_state.answers = []
+
+if 'confidences' not in st.session_state:
+    st.session_state.confidences = []
 
 st.title("Confidence Calibration App")
 
-answers = []
-confidences = []
-
-for i, q in enumerate(selected_questions):
+for i, q in enumerate(st.session_state.selected_questions):
     st.subheader(f"Question {i+1}: {q['question']}")
-    answer = st.radio(f"Your Answer for Question {i+1}:", q['choices'], key=f"radio{i+1}")
-    confidence = st.slider(f"How confident are you for Question {i+1}?", 0, 100, 50, key=f"slider{i+1}")
+    answer = st.radio(f"Your Answer for question {i+1}", q['choices'], key=f"answer_{i}")
+    confidence = st.slider(f"How confident are you for question {i+1}?", 0, 100, 50, key=f"confidence_{i}")
 
-    answers.append(answer == q['choices'][q['answer']])
-    confidences.append(confidence)
+    if len(st.session_state.answers) < len(st.session_state.selected_questions):
+        st.session_state.answers.append(answer == q['choices'][q['answer']])
+        st.session_state.confidences.append(confidence)
+    else:
+        st.session_state.answers[i] = answer == q['choices'][q['answer']]
+        st.session_state.confidences[i] = confidence
 
 if st.button("Submit"):
     # Calculate the calibration curve
