@@ -104,9 +104,13 @@ if st.button("Submit"):
     
     # Plot
     fig, ax = plt.subplots()
+    fig.patch.set_alpha(0.0)
+    ax.patch.set_alpha(0.0)
     ax.plot(bins[:-1], bin_means, marker='o')
     ax.plot([0, 100], [0, 1], '--', label="Perfect Calibration")
     ax.set_xlabel("Confidence (%)")
     ax.set_ylabel("Accuracy")
+    ax.set_ylim(bottom=0)
+    ax.set_xlim(left=50)
     ax.legend()
     st.pyplot(fig)
