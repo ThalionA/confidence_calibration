@@ -113,4 +113,6 @@ if st.button("Submit"):
     ax.set_ylim(bottom=0)
     ax.set_xlim(left=50)
     ax.legend()
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
     st.pyplot(fig)
