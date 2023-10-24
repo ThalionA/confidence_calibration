@@ -82,7 +82,7 @@ st.title("Confidence Calibration App")
 for i, q in enumerate(st.session_state.selected_questions):
     st.subheader(f"Question {i+1}: {q['question']}")
     answer = st.radio(f"Your Answer for question {i+1}", q['choices'], key=f"answer_{i}")
-    confidence = st.slider(f"How confident are you for question {i+1}?", 0, 100, 50, key=f"confidence_{i}")
+    confidence = st.slider(f"How confident are you for question {i+1}?", 50, 100, 50, step=10, key=f"confidence_{i}")
 
     if len(st.session_state.answers) < len(st.session_state.selected_questions):
         st.session_state.answers.append(answer == q['choices'][q['answer']])
@@ -93,11 +93,11 @@ for i, q in enumerate(st.session_state.selected_questions):
 
 if st.button("Submit"):
     # Calculate the calibration curve
-    bins = np.linspace(0, 100, 11)
-    bin_means = np.zeros(10)
+    bins = np.array([50, 60, 70, 80, 90, 100])
+    bin_means = np.zeros(len(bins) - 1)
     
     for i in range(1, len(bins)):
-        mask = (np.array(st.session_state.confidences) >= bins[i-1]) & (np.array(st.session_state.confidences) < bins[i])
+        mask = (np.array(st.session_state.confidences) >= bins[i-1]) & (np.array(st.session_state.confidences) <= bins[i])
         bin_data = np.array(st.session_state.answers)[mask]
         if len(bin_data) > 0:
             bin_means[i-1] = np.mean(bin_data)
