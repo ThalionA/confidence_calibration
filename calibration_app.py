@@ -92,22 +92,21 @@ for i, q in enumerate(st.session_state.selected_questions):
         st.session_state.confidences[i] = confidence
 
 if st.button("Submit"):
-    # Calculate the calibration curve
-    bins = np.array([50, 60, 70, 80, 90, 100])
-    bin_means = np.zeros(len(bins) - 1)
+    unique_confidences = np.unique(st.session_state.confidences)
+    avg_performance = []
     
-    for i in range(1, len(bins)):
-        mask = (np.array(st.session_state.confidences) >= bins[i-1]) & (np.array(st.session_state.confidences) <= bins[i])
+    for c in unique_confidences:
+        mask = np.array(st.session_state.confidences) == c
         bin_data = np.array(st.session_state.answers)[mask]
         if len(bin_data) > 0:
-            bin_means[i-1] = np.mean(bin_data)
-    
+            avg_performance.append(np.mean(bin_data))
+            
     # Plot
     fig, ax = plt.subplots()
     fig.patch.set_alpha(0.0)
     ax.patch.set_alpha(0.0)
-    ax.plot(bins[:-1], bin_means, marker='o')
-    ax.plot([0, 100], [0, 1], '--', label="Perfect Calibration")
+    ax.scatter(unique_confidences, avg_performance, marker='o')
+    ax.plot([50, 100], [0, 1], '--', label="Perfect Calibration")
     ax.set_xlabel("Confidence (%)")
     ax.set_ylabel("Accuracy")
     ax.set_ylim(bottom=0)
