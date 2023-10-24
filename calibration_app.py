@@ -100,13 +100,19 @@ if st.button("Submit"):
         bin_data = np.array(st.session_state.answers)[mask]
         if len(bin_data) > 0:
             avg_performance.append(np.mean(bin_data) * 100)  # Multiply by 100 to get percentage
+
     
     # Plot
     fig, ax = plt.subplots()
-    fig.patch.set_alpha(0.0)
-    ax.patch.set_alpha(0.0)
+    #fig.patch.set_alpha(0.0)
+    #ax.patch.set_alpha(0.0)
     ax.scatter(unique_confidences, avg_performance, marker='o')
     ax.plot([50, 100], [50, 100], '--', label="Perfect Calibration")  # 45-degree line
+
+    # Least squares line
+    coefficients = np.polyfit(unique_confidences, avg_performance, 1)
+    y_fit = np.polyval(coefficients, unique_confidences)
+    ax.plot(unique_confidences, y_fit, '-', label='Least Squares Line')
     ax.set_xlabel("Confidence (%)")
     ax.set_ylabel("Accuracy (%)")
     ax.set_ylim([0, 100])
