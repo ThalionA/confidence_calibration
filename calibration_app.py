@@ -99,19 +99,26 @@ if st.button("Submit"):
         mask = np.array(st.session_state.confidences) == c
         bin_data = np.array(st.session_state.answers)[mask]
         if len(bin_data) > 0:
-            avg_performance.append(np.mean(bin_data))
-            
+            avg_performance.append(np.mean(bin_data) * 100)  # Multiply by 100 to get percentage
+    
     # Plot
     fig, ax = plt.subplots()
     fig.patch.set_alpha(0.0)
     ax.patch.set_alpha(0.0)
     ax.scatter(unique_confidences, avg_performance, marker='o')
-    ax.plot([50, 100], [0, 1], '--', label="Perfect Calibration")
+    ax.plot([50, 100], [50, 100], '--', label="Perfect Calibration")  # 45-degree line
     ax.set_xlabel("Confidence (%)")
-    ax.set_ylabel("Accuracy")
-    ax.set_ylim(bottom=0)
-    ax.set_xlim(left=50)
+    ax.set_ylabel("Accuracy (%)")
+    ax.set_ylim([0, 100])
+    ax.set_xlim([50, 100])
     ax.legend()
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     st.pyplot(fig)
+
+    # Display Actual Answers
+    st.subheader("Your Answers vs Actual Answers")
+    for i, q in enumerate(st.session_state.selected_questions):
+        st.write(f"Question {i+1}: {q['question']}")
+        st.write(f"Your Answer: {st.session_state.answers[i]}")
+        st.write(f"Correct Answer: {q['choices'][q['answer']]}")
