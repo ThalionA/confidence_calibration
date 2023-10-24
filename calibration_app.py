@@ -77,9 +77,9 @@ confidences = []
 
 for i, q in enumerate(selected_questions):
     st.subheader(f"Question {i+1}: {q['question']}")
-    answer = st.radio("Your Answer:", q['choices'])
-    confidence = st.slider("How confident are you?", 0, 100, 50)
-    
+    answer = st.radio(f"Your Answer for Question {i+1}:", q['choices'], key=f"radio{i+1}")
+    confidence = st.slider(f"How confident are you for Question {i+1}?", 0, 100, 50, key=f"slider{i+1}")
+
     answers.append(answer == q['choices'][q['answer']])
     confidences.append(confidence)
 
